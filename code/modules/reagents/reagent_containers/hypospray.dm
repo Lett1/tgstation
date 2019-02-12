@@ -180,3 +180,10 @@
 	name = "atropine autoinjector"
 	desc = "A rapid way to save a person from a critical injury state!"
 	list_reagents = list("atropine" = 10)
+
+/obj/item/reagent_containers/hypospray/medipen/liquidnanite_pen
+	name = "nanites autoinjector"
+	desc = "Injects a fluid containing nanites into the users bloodstream."
+	volume = 1
+	amount_per_transfer_from_this = 1
+	list_reagents = list("liquidnanites" = 1)

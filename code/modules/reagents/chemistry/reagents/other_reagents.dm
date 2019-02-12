@@ -1834,3 +1834,23 @@
 /datum/reagent/tranquility/reaction_mob(mob/living/L, method=TOUCH, reac_volume, show_message = 1, touch_protection = 0)
 	if(method==PATCH || method==INGEST || method==INJECT || (method == VAPOR && prob(min(reac_volume,100)*(1 - touch_protection))))
 		L.ForceContractDisease(new /datum/disease/transformation/gondola(), FALSE, TRUE)
+
+datum/reagent/liquidnanites
+    name = "Liquid Nanites"
+    id ="liquidnanites"
+    description = "Nanites suspended in a saline-glucose solution. Will integrate into the host body on consumption or injection."
+    metabolization_rate = INFINITY
+    can_synth = FALSE
+    color = "#DCDCDC"
+    taste_description = "sweetness and salt"
+
+    var/cloud_id = 1
+
+/datum/reagent/liquidnanites/on_mob_life(mob/living/carbon/M)
+    M.AddComponent(/datum/component/nanites, 20, cloud_id)
+    ..()
+
+/datum/reagent/liquidnanites/reaction_mob(mob/living/L, method=TOUCH, reac_volume, show_message = 1, touch_protection = 0)
+    if (method == VAPOR)
+        return
+    ..()
