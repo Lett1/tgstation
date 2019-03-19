@@ -1,4 +1,10 @@
-
+/obj/item/clothing/head/dimmadome
+	name = "The big one"
+	icon = 'icons/obj/clothing/dimmadome.dmi'
+	alternate_worn_icon = 'icons/mob/large-worn-icons/32x256/dimmadome.dmi'
+	icon_state = "thelongboy"
+	item_state ="thelongboy"
+	worn_y_dimension = 512
 
 /obj/item/clothing/head/centhat
 	name = "\improper CentCom hat"
