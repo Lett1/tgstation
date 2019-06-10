@@ -151,7 +151,7 @@
 	. = ..()
 	var/mob/living/carbon/M = target
 
-	M.adjust_nutrition(5)
+	M.adjust_nutrition(2)
 
 // Fedora hat
 
@@ -266,14 +266,84 @@
 
 // Canned bees
 
-/obj/item/reagent_containers/food/drinks/soda_cans/bees
+/obj/item/reagent_containers/food/drinks/soda_cans/enerbee
 	name = "EnerBee Drink"
 	desc = "You can hear faint buzzing inside the can."
 	icon_state = "lemon-lime"
 
-/obj/item/reagent_containers/food/drinks/soda_cans/bees/open_soda(mob/user)
+/obj/item/reagent_containers/food/drinks/soda_cans/enerbee/open_soda(mob/user)
 	. = ..()
-	for(var/i in 1 to rand(3,6))
+	for(var/i in 1 to rand(2,4))
 		var/mob/living/simple_animal/hostile/poison/bees/short/new_bee = new(get_turf(user), 20 SECONDS)
-		new_bee.assign_reagent(/datum/reagent/consumable/nutriment)
+		var/beegent = new /datum/reagent/consumable/nutriment()
+		new_bee.assign_reagent(beegent)
 
+// Powdered water
+
+/datum/reagent/water_powder
+	name = "Powdered Water"
+	id = "water_powder"
+	description = "Water that has been solidified into a dry powder."
+	color = "#AAAAAA"
+	can_synth = FALSE
+
+/datum/chemical_reaction/rehydrated_water
+	name = "Rehydrated Water"
+	id = "rehydrated_water"
+	results = list("water" = 10)
+	required_reagents = list("water_powder" = 1, "water" = 1)
+
+// Piscina
+
+/datum/reagent/consumable/piscina
+	name = "Piscina"
+	id = "piscina"
+	description = "A salty drink made from fish."
+	color = "#100800" // rgb: 16, 8, 0
+	taste_description = "fish"
+	glass_name = "glass of Piscina"
+
+/obj/item/reagent_containers/food/drinks/soda_cans/piscina
+	name = "Piscina"
+	desc = "Made from the freshest fish of neo-greece. Taste the sea."
+	icon_state = "cola"
+	list_reagents = list("piscina" = 30)
+	foodtype = MEAT
+
+// Gator-Aid
+
+/datum/reagent/consumable/gator_aid
+	name = "Gator-Aid"
+	id = "gator_aid"
+	description = "Apparently this passes for a drink in some parts of the galaxy."
+	color = "#04491c"
+	taste_description = "swamp water"
+	glass_name = "glass of Gator-Aid"
+
+/obj/item/reagent_containers/food/drinks/soda_cans/gator_aid
+	name = "Gator-Aid"
+	desc = "The space-athletes drink of choice."
+	icon_state = "cola"
+	list_reagents = list("gator_aid" = 30)
+	foodtype = GROSS
+
+// Polyglot tablets
+
+/datum/reagent/consumable/polyglot
+	name = "Polyglot"
+	id = "polyglot"
+	description = "Modern science worked hard to bring you language in liquid form. Drink and enjoy speaking a new tongue."
+	color = "#100800" // rgb: 16, 8, 0
+	taste_description = "language"
+	glass_name = "glass of Polyglot"
+	metabolization_rate = INFINITY
+	can_synth = FALSE
+
+	var/static/datum/language/granted_language = pick(subtypesof(/datum/language) - /datum/language/common)
+
+/datum/reagent/consumable/polyglot/on_mob_add(mob/living/L)
+	. = ..()
+	var/datum/language_holder/target_lang_holder = L.get_language_holder()
+	to_chat(world, granted_language)
+
+	target_lang_holder.grant_language(granted_language)
