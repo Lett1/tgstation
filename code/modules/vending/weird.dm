@@ -329,21 +329,272 @@
 
 // Polyglot tablets
 
-/datum/reagent/consumable/polyglot
+/obj/item/reagent_containers/food/snacks/polyglot
 	name = "Polyglot"
-	id = "polyglot"
-	description = "Modern science worked hard to bring you language in liquid form. Drink and enjoy speaking a new tongue."
-	color = "#100800" // rgb: 16, 8, 0
-	taste_description = "language"
-	glass_name = "glass of Polyglot"
-	metabolization_rate = INFINITY
-	can_synth = FALSE
+	desc = "Years of linguistic development condensed into a single bar."
+	icon_state = "chocolatebar"
+	list_reagents = list("nutriment" = 1, "sugar" = 1, "cocoa" = 1)
+	bitesize = 10
+	filling_color = "#A0522D"
+	tastes = list("language" = 1)
+	foodtype = JUNKFOOD | SUGAR
 
-	var/static/datum/language/granted_language = pick(subtypesof(/datum/language) - /datum/language/common)
-
-/datum/reagent/consumable/polyglot/on_mob_add(mob/living/L)
+/obj/item/reagent_containers/food/snacks/polyglot/On_Consume(mob/living/eater)
 	. = ..()
-	var/datum/language_holder/target_lang_holder = L.get_language_holder()
+
+	var/datum/language_holder/target_lang_holder = eater.get_language_holder()
+	var/datum/language/granted_language = pick(subtypesof(/datum/language) - /datum/language/common)
+
 	to_chat(world, granted_language)
 
 	target_lang_holder.grant_language(granted_language)
+
+// American AIR
+
+/obj/item/reagent_containers/food/drinks/soda_cans/air/american
+	name = "american air"
+	desc = "A real patriot knows not to breathe the same air as communists. A real patriot remembers. Let your love of freedom breathe freely, with American Air."
+
+// Bag of alien eyes
+
+/obj/item/reagent_containers/food/snacks/chips/alien_eyes
+	name = "alien eyes"
+	desc = "A transparent bag with what appears to be eyes of some unknown species inside. Gooey on the inside."
+	icon_state = "chips"
+	trash = /obj/item/trash/chips
+	bitesize = 4
+	list_reagents = list("nutriment" = 1, "space_drugs" = 10)
+	junkiness = 20
+	filling_color = "#FFD700"
+	tastes = list("something indescribable" = 1, "jelly" = 1)
+	foodtype = JUNKFOOD | GROSS
+
+// THUNDER BAR
+
+/obj/item/reagent_containers/food/snacks/thunderbar
+	name = "thunder bar"
+	desc = "SHOCKINGLY GOOD."
+	icon_state = "chocolatebar"
+	list_reagents = list("nutriment" = 2, "sugar" = 2, "cocoa" = 2)
+	filling_color = "#A0522D"
+	tastes = list("chocolate" = 1, "lightning" = 1)
+	foodtype = JUNKFOOD | SUGAR
+
+/obj/item/reagent_containers/food/snacks/thunderbar/On_Consume(mob/living/eater)
+	. = ..()
+	var/turf/T = get_step(get_step(eater, NORTH), NORTH)
+	T.Beam(eater, icon_state="lightning[rand(1,12)]", time = 5)
+	if(ishuman(eater))
+		var/mob/living/carbon/human/H = eater
+		H.electrocution_animation(40)
+	// TODO: make this heal ethereal
+	// TODO: make this play a sound
+
+// Hot potato
+
+/obj/item/reagent_containers/food/snacks/grown/potato/hot
+	name = "hot potato"
+	desc = "Fresh out of the pot!"
+	list_reagents = list("nutriment" = 2, "capsaicin" = 30)
+
+/obj/item/reagent_containers/food/snacks/grown/potato/hot/attack_hand(mob/living/carbon/human/user)
+	. = ..()
+	if(.)
+		return
+
+	var/prot = 0
+
+	if(istype(user))
+		if(user.gloves)
+			var/obj/item/clothing/gloves/G = user.gloves
+			if(G.max_heat_protection_temperature)
+				prot = (G.max_heat_protection_temperature > 360)
+	else
+		prot = 1
+	
+	if(!(prot > 0 || HAS_TRAIT(user, TRAIT_RESISTHEAT) || HAS_TRAIT(user, TRAIT_RESISTHEATHANDS)))
+		to_chat(user, "<span class='warning'>You try to pickup the [src], but you burn your hand on it!</span>")
+		user.dropItemToGround(src)
+		var/obj/item/bodypart/affecting = user.get_bodypart("[(user.active_hand_index % 2 == 0) ? "r" : "l" ]_arm")
+		if(affecting && affecting.receive_damage( 0, 5 ))		// 5 burn damage
+			user.update_damage_overlays()
+		return TRUE
+
+// Cold potato
+
+/obj/item/reagent_containers/food/snacks/grown/potato/cold
+	name = "cold potato"
+	desc = "A solid chunk of a frozen potato."
+	list_reagents = list("nutriment" = 2, "frostoil" = 10)
+
+// FOOD
+
+/obj/item/reagent_containers/food/snacks/food
+	name = "food"
+	desc = "Eat."
+	icon_state = "chocolatebar"
+	list_reagents = list("nutriment" = 2)
+	foodtype = JUNKFOOD
+
+// Unlucky charms
+/obj/item/reagent_containers/food/snacks/unlucky_charms
+	name = "old cereal"
+	icon_state = "sosjerky"
+	desc = "It reminds you of harder times. Best before 10-02-1999."
+	trash = /obj/item/trash/sosjerky
+	list_reagents = list("nutriment" = 1)
+	junkiness = 10
+	filling_color = "#8B0000"
+	tastes = list("stale cereal" = 1, "dashed hopes and dreams" = 1)
+	foodtype = JUNKFOOD
+
+/obj/item/reagent_containers/food/snacks/unlucky_charms/On_Consume(mob/living/eater)
+	. = ..()
+	SEND_SIGNAL(eater, COMSIG_ADD_MOOD_EVENT, src, /datum/mood_event/sapped)
+
+// Canned rainbow
+
+/obj/item/reagent_containers/food/drinks/soda_cans/canned_rainbow
+	name = "ingemaakte reënboog"
+	desc = "Smaak die reënboog, nou as 'n drankie."
+	icon_state = "cola"
+	list_reagents = list("colorful_reagent" = 30)
+
+// Bacon jumpsuit
+
+/obj/item/reagent_containers/food/snacks/meat/bacon_shoes
+	name = "bacon shoes"
+	desc = "A pair of brown shoes."
+	icon_state = "brown"
+	item_color = "brown"
+
+	body_parts_covered = FEET
+	slot_flags = ITEM_SLOT_FEET
+	icon = 'icons/obj/clothing/shoes.dmi'
+
+	list_reagents = list("nutriment" = 5)
+	filling_color = "#854817"
+	tastes = list("bacon" = 1)
+	foodtype = MEAT
+
+// Pie in the sky
+// Floats around, not affected by gravity
+
+/obj/item/reagent_containers/food/snacks/cakeslice/plain/pie_in_the_sky
+	name = "pie in the sky"
+	desc = "You will eat, bye and bye,\nIn that glorious land above the sky;\nWork and pray, live on hay,\nYou’ll get pie in the sky when you die."
+	list_reagents = list("nutriment" = 4, "vitamin" = 1)
+	tastes = list("cake" = 1, "clouds"= 1)
+
+/obj/item/reagent_containers/food/snacks/cakeslice/plain/pie_in_the_sky/Initialize(mapload)
+	. = ..()
+	AddComponent(/datum/component/forced_gravity, FALSE)
+
+// Fractal cookie
+// Contains a fuckload of nutriment
+
+/obj/item/reagent_containers/food/snacks/cookie/fractal
+	name = "fractal cookie"
+	desc = "Upon closer inspection it turns out that the chocolate bits are in fact smaller cookies which in turn contain even smaller cookies. This seems to continue on forever."
+	bitesize = 500
+	list_reagents = list("nutriment" = 1000)
+	volume = 1000
+
+// Can of laughter DX
+// Contains superlaughter
+
+/obj/item/reagent_containers/food/drinks/soda_cans/can_of_laughter_dx
+	name = "can of laughter DX"
+	desc = "Turns even the bleakest days into sunny rainbow filled ones."
+	icon_state = "cola"
+	list_reagents = list("superlaughter" = 30)
+	foodtype = SUGAR | JUNKFOOD
+
+// Clown candy
+// Turns you into a gamer
+
+/obj/item/reagent_containers/food/snacks/clown_candy
+	name = "clown candy"
+	desc = "Made from clowns for clowns."
+	icon_state = "chocolatebar"
+	list_reagents = list("sugar" = 2, "laughter" = 2)
+	tastes = list("honking" = 1)
+	bitesize = 100
+	foodtype = JUNKFOOD | SUGAR
+
+/obj/item/reagent_containers/food/snacks/clown_candy/On_Consume(mob/living/carbon/eater)
+	. = ..()
+
+	var/obj/item/clothing/mask/gas/clown_hat/cursed/magichead = new(get_turf(eater))
+	eater.visible_message("<span class='danger'>[eater]'s face twists and contorts into a funny shape!</span>", \
+						   "<span class='danger'>Your face feels like it's melting!</span>")
+	if(!eater.dropItemToGround(eater.wear_mask))
+		qdel(eater.wear_mask)
+	eater.equip_to_slot_if_possible(magichead, SLOT_WEAR_MASK, 1, 1)
+
+	eater.flash_act()
+
+/obj/item/clothing/mask/gas/clown_hat/cursed
+
+/obj/item/clothing/mask/gas/clown_hat/Initialize()
+	. = ..()
+	ADD_TRAIT(src, TRAIT_NODROP, ABSTRACT_ITEM_TRAIT)
+
+// Sound bites
+// Cookies in different shapes, each one makes a different sound
+
+/obj/item/reagent_containers/food/snacks/sound_bite
+	name = "sound bite"
+	desc = "SoundBites (TM). Rip and hear! "
+	icon_state = "COOKIE!!!"
+	bitesize = 1
+	list_reagents = list("nutriment" = 1)
+	filling_color = "#F0E68C"
+	tastes = list("cookie" = 1)
+	foodtype = GRAIN | SUGAR
+
+	var/soundbite = null
+
+/obj/item/reagent_containers/food/snacks/sound_bite/Initialize(mapload)
+	. = ..()
+	switch(rand(1,5))
+		if(1)
+			soundbite = 'sound/items/bikehorn.ogg'
+			desc += "This one is shaped like a bike horn."
+		if(2)
+			soundbite = 'sound/effects/explosion1.ogg'
+			desc += "This one looks like an explosion."
+		if(3)
+			soundbite = 'sound/voice/human/wilhelm_scream.ogg'
+			desc += "This one looks like someone screaming."
+		if(4)
+			soundbite = 'sound/effects/reee.ogg'
+			desc += "This one looks like a frog?"
+		if(5)
+			soundbite = 'sound/weapons/saberon.ogg'
+			desc += "This one looks like a sword."
+	
+/obj/item/reagent_containers/food/snacks/sound_bite/On_Consume(mob/living/eater)
+	playsound(src, soundbite, 100, TRUE) // Sound before parent to prevent the sound from being canceled cause the cookie got deleted
+	. = ..()
+
+// Triangle chips
+// Gives you the glow mutation
+/obj/item/reagent_containers/food/snacks/chips/triangles
+	name = "triangle chips"
+	desc = "Triangular chips with eyes in the centers."
+	icon_state = "chips"
+	trash = /obj/item/trash/chips
+	bitesize = 2
+	list_reagents = list("nutriment" = 2, "sodiumchloride" = 4)
+	junkiness = 20
+	filling_color = "#FFD700"
+	tastes = list("salt" = 1, "crisps" = 1, "conspiracies" = 1)
+	foodtype = JUNKFOOD | FRIED
+
+/obj/item/reagent_containers/food/snacks/chips/triangles/On_Consume(mob/living/eater)
+	. = ..()
+
+	if(iscarbon(eater))
+		var/mob/living/carbon/M = eater
+		M.dna.add_mutation(/datum/mutation/human/glow)
