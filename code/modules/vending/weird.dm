@@ -110,7 +110,7 @@
 	'sound/voice/human/femalescream_4.ogg', 
 	'sound/voice/human/femalescream_5.ogg',
 	'sound/voice/human/wilhelm_scream.ogg',
-	'sound/voice/human/malescream_1.ogg'
+	'sound/voice/human/malescream_1.ogg',
 	'sound/voice/human/malescream_2.ogg',
 	'sound/voice/human/malescream_3.ogg', 
 	'sound/voice/human/malescream_4.ogg', 
@@ -162,7 +162,7 @@
 	item_state = "fedora"
 	slot_flags = ITEM_SLOT_HEAD
 	icon = 'icons/obj/clothing/hats.dmi'
-	list_reagents = list("nutriment" = 5)
+	list_reagents = list(/datum/reagent/consumable/nutriment = 5)
 	filling_color = "#854817"
 	tastes = list("fish" = 1, "enlightment" = 1)
 	foodtype = MEAT
@@ -175,7 +175,7 @@
 	icon_state = "chips"
 	trash = /obj/item/trash/chips
 	bitesize = 4
-	list_reagents = list("nutriment" = 1, "condensedcapsaicin" = 10, "sodiumchloride" = 1)
+	list_reagents = list(/datum/reagent/consumable/nutriment = 1, /datum/reagent/consumable/condensedcapsaicin = 10, /datum/reagent/consumable/sodiumchloride = 1)
 	junkiness = 20
 	filling_color = "#FFD700"
 	tastes = list("salt" = 1, "crisps" = 1, "lava" = 1)
@@ -191,22 +191,21 @@
 	desc = "Upon smelling it, it turns out to be made out of chocolate."
 	icon = 'icons/obj/module.dmi'
 	icon_state = "nucleardisk"
-	list_reagents = list("nutriment" = 2, "sugar" = 2, "cocoa" = 2)
+	list_reagents = list(/datum/reagent/consumable/nutriment = 2, /datum/reagent/consumable/sugar = 2, /datum/reagent/consumable/coco = 2)
 	filling_color = "#A0522D"
 	tastes = list("chocolate" = 1, "flukes" = 1, "captainship" = 1)
 	foodtype = JUNKFOOD | SUGAR
 
 // Mountain Dew: Dorito Blaze
-/datum/reagent/vomitol
+/datum/reagent/consumable/vomitol
 	name = "Vomitol"
-	id = "vomitol"
 	description = "Causes instant vomiting on consumption."
 	color = "#89A203"
 	metabolization_rate = INFINITY
 	taste_description = "garbage"
 	can_synth = FALSE
 
-/datum/reagent/vomitol/on_mob_add(mob/living/L)
+/datum/reagent/consumable/vomitol/on_mob_add(mob/living/L)
 	. = ..()
 	var/mob/living/carbon/C = L
 	C.vomit(5,FALSE,TRUE)
@@ -217,7 +216,7 @@
 	icon_state = "chips"
 	trash = /obj/item/trash/chips
 	bitesize = 4
-	list_reagents = list("nutriment" = 1, "vomitol" = 1)
+	list_reagents = list(/datum/reagent/consumable/nutriment = 1, "vomitol" = 1)
 	junkiness = 20
 	filling_color = "#FFD700"
 	tastes = list("salt" = 1, "crisps" = 1)
@@ -227,7 +226,7 @@
 /obj/item/reagent_containers/food/snacks/cakeslice/plain/tasteme
 	name = "taste me!"
 	desc = "A slice of cake with a a piece of paper stuck onto it. It reads \"Taste me!\""
-	list_reagents = list("nutriment" = 4, "vitamin" = 1)
+	list_reagents = list(/datum/reagent/consumable/nutriment = 4, "vitamin" = 1)
 	tastes = list("cake" = 1, "magic"= 1)
 
 /obj/item/reagent_containers/food/snacks/cakeslice/plain/tasteme/On_Consume(mob/living/eater)
@@ -237,16 +236,15 @@
 
 // Dream puffs
 
-/datum/reagent/zolpidem
+/datum/reagent/consumable/zolpidem
 	name = "Zolpidem"
-	id = "zolpidem"
 	description = "A medicinal substance often used to treat sleeping disorders."
 	reagent_state = LIQUID
 	color = "#00f041"
 	taste_mult = 0
 	can_synth = FALSE
 
-/datum/reagent/zolpidem/on_mob_life(mob/living/carbon/M)
+/datum/reagent/consumable/zolpidem/on_mob_life(mob/living/carbon/M)
 	switch(current_cycle)
 		if(5)
 			to_chat(M, "<span class='warning'>You start to feel tired...</span>" )
@@ -260,9 +258,8 @@
 /obj/item/reagent_containers/food/snacks/cakeslice/plain/dreampuff
 	name = "dream puff"
 	desc = "Made out of dough and whipped hopes and dreams."
-	list_reagents = list("nutriment" = 4, "vitamin" = 1, "zolpidem" = 4)
+	list_reagents = list(/datum/reagent/consumable/nutriment = 4,/datum/reagent/consumable/nutriment/vitamin = 1, /datum/reagent/consumable/zolpidem = 4)
 	tastes = list("cake" = 1) // Need some better taste for it
-
 
 // Canned bees
 
@@ -282,7 +279,6 @@
 
 /datum/reagent/water_powder
 	name = "Powdered Water"
-	id = "water_powder"
 	description = "Water that has been solidified into a dry powder."
 	color = "#AAAAAA"
 	can_synth = FALSE
@@ -290,14 +286,13 @@
 /datum/chemical_reaction/rehydrated_water
 	name = "Rehydrated Water"
 	id = "rehydrated_water"
-	results = list("water" = 10)
-	required_reagents = list("water_powder" = 1, "water" = 1)
+	results = list(/datum/reagent/water = 10)
+	required_reagents = list(/datum/reagent/water_powder = 1, /datum/reagent/water = 1)
 
 // Piscina
 
 /datum/reagent/consumable/piscina
 	name = "Piscina"
-	id = "piscina"
 	description = "A salty drink made from fish."
 	color = "#100800" // rgb: 16, 8, 0
 	taste_description = "fish"
@@ -307,14 +302,13 @@
 	name = "Piscina"
 	desc = "Made from the freshest fish of neo-greece. Taste the sea."
 	icon_state = "cola"
-	list_reagents = list("piscina" = 30)
+	list_reagents = list(/datum/reagent/consumable/piscina = 30)
 	foodtype = MEAT
 
 // Gator-Aid
 
 /datum/reagent/consumable/gator_aid
 	name = "Gator-Aid"
-	id = "gator_aid"
 	description = "Apparently this passes for a drink in some parts of the galaxy."
 	color = "#04491c"
 	taste_description = "swamp water"
@@ -324,7 +318,7 @@
 	name = "Gator-Aid"
 	desc = "The space-athletes drink of choice."
 	icon_state = "cola"
-	list_reagents = list("gator_aid" = 30)
+	list_reagents = list(/datum/reagent/consumable/gator_aid = 30)
 	foodtype = GROSS
 
 // Polyglot tablets
@@ -333,7 +327,7 @@
 	name = "Polyglot"
 	desc = "Years of linguistic development condensed into a single bar."
 	icon_state = "chocolatebar"
-	list_reagents = list("nutriment" = 1, "sugar" = 1, "cocoa" = 1)
+	list_reagents = list(/datum/reagent/consumable/nutriment = 1, /datum/reagent/consumable/nutriment/vitamin = 1, /datum/reagent/consumable/coco = 1)
 	bitesize = 10
 	filling_color = "#A0522D"
 	tastes = list("language" = 1)
@@ -363,7 +357,7 @@
 	icon_state = "chips"
 	trash = /obj/item/trash/chips
 	bitesize = 4
-	list_reagents = list("nutriment" = 1, "space_drugs" = 10)
+	list_reagents = list(/datum/reagent/consumable/nutriment = 1, /datum/reagent/drug/space_drugs = 10)
 	junkiness = 20
 	filling_color = "#FFD700"
 	tastes = list("something indescribable" = 1, "jelly" = 1)
@@ -375,7 +369,7 @@
 	name = "thunder bar"
 	desc = "SHOCKINGLY GOOD."
 	icon_state = "chocolatebar"
-	list_reagents = list("nutriment" = 2, "sugar" = 2, "cocoa" = 2)
+	list_reagents = list(/datum/reagent/consumable/nutriment = 2, /datum/reagent/consumable/sugar = 2, /datum/reagent/consumable/coco = 2)
 	filling_color = "#A0522D"
 	tastes = list("chocolate" = 1, "lightning" = 1)
 	foodtype = JUNKFOOD | SUGAR
@@ -395,7 +389,7 @@
 /obj/item/reagent_containers/food/snacks/grown/potato/hot
 	name = "hot potato"
 	desc = "Fresh out of the pot!"
-	list_reagents = list("nutriment" = 2, "capsaicin" = 30)
+	list_reagents = list(/datum/reagent/consumable/nutriment = 2, /datum/reagent/consumable/capsaicin = 30)
 
 /obj/item/reagent_containers/food/snacks/grown/potato/hot/attack_hand(mob/living/carbon/human/user)
 	. = ..()
@@ -425,15 +419,15 @@
 /obj/item/reagent_containers/food/snacks/grown/potato/cold
 	name = "cold potato"
 	desc = "A solid chunk of a frozen potato."
-	list_reagents = list("nutriment" = 2, "frostoil" = 10)
+	list_reagents = list(/datum/reagent/consumable/nutriment = 2, /datum/reagent/consumable/frostoil = 10)
 
 // FOOD
 
 /obj/item/reagent_containers/food/snacks/food
 	name = "food"
-	desc = "Eat."
+	desc = "Consume."
 	icon_state = "chocolatebar"
-	list_reagents = list("nutriment" = 2)
+	list_reagents = list(/datum/reagent/consumable/nutriment = 2)
 	foodtype = JUNKFOOD
 
 // Unlucky charms
@@ -442,7 +436,7 @@
 	icon_state = "sosjerky"
 	desc = "It reminds you of harder times. Best before 10-02-1999."
 	trash = /obj/item/trash/sosjerky
-	list_reagents = list("nutriment" = 1)
+	list_reagents = list(/datum/reagent/consumable/nutriment = 1)
 	junkiness = 10
 	filling_color = "#8B0000"
 	tastes = list("stale cereal" = 1, "dashed hopes and dreams" = 1)
@@ -458,7 +452,7 @@
 	name = "ingemaakte reënboog"
 	desc = "Smaak die reënboog, nou as 'n drankie."
 	icon_state = "cola"
-	list_reagents = list("colorful_reagent" = 30)
+	list_reagents = list(/datum/reagent/colorful_reagent = 30)
 
 // Bacon jumpsuit
 
@@ -472,7 +466,7 @@
 	slot_flags = ITEM_SLOT_FEET
 	icon = 'icons/obj/clothing/shoes.dmi'
 
-	list_reagents = list("nutriment" = 5)
+	list_reagents = list(/datum/reagent/consumable/nutriment = 5)
 	filling_color = "#854817"
 	tastes = list("bacon" = 1)
 	foodtype = MEAT
@@ -483,7 +477,7 @@
 /obj/item/reagent_containers/food/snacks/cakeslice/plain/pie_in_the_sky
 	name = "pie in the sky"
 	desc = "You will eat, bye and bye,\nIn that glorious land above the sky;\nWork and pray, live on hay,\nYou’ll get pie in the sky when you die."
-	list_reagents = list("nutriment" = 4, "vitamin" = 1)
+	list_reagents = list(/datum/reagent/consumable/nutriment = 4, /datum/reagent/consumable/nutriment/vitamin = 1)
 	tastes = list("cake" = 1, "clouds"= 1)
 
 /obj/item/reagent_containers/food/snacks/cakeslice/plain/pie_in_the_sky/Initialize(mapload)
@@ -497,7 +491,7 @@
 	name = "fractal cookie"
 	desc = "Upon closer inspection it turns out that the chocolate bits are in fact smaller cookies which in turn contain even smaller cookies. This seems to continue on forever."
 	bitesize = 500
-	list_reagents = list("nutriment" = 1000)
+	list_reagents = list(/datum/reagent/consumable/nutriment = 1000)
 	volume = 1000
 
 // Can of laughter DX
@@ -507,7 +501,7 @@
 	name = "can of laughter DX"
 	desc = "Turns even the bleakest days into sunny rainbow filled ones."
 	icon_state = "cola"
-	list_reagents = list("superlaughter" = 30)
+	list_reagents = list(/datum/reagent/consumable/superlaughter = 30)
 	foodtype = SUGAR | JUNKFOOD
 
 // Clown candy
@@ -517,7 +511,7 @@
 	name = "clown candy"
 	desc = "Made from clowns for clowns."
 	icon_state = "chocolatebar"
-	list_reagents = list("sugar" = 2, "laughter" = 2)
+	list_reagents = list(/datum/reagent/consumable/sugar = 2, /datum/reagent/consumable/laughter = 2)
 	tastes = list("honking" = 1)
 	bitesize = 100
 	foodtype = JUNKFOOD | SUGAR
@@ -548,7 +542,7 @@
 	desc = "SoundBites (TM). Rip and hear! "
 	icon_state = "COOKIE!!!"
 	bitesize = 1
-	list_reagents = list("nutriment" = 1)
+	list_reagents = list(/datum/reagent/consumable/nutriment = 1)
 	filling_color = "#F0E68C"
 	tastes = list("cookie" = 1)
 	foodtype = GRAIN | SUGAR
@@ -586,7 +580,7 @@
 	icon_state = "chips"
 	trash = /obj/item/trash/chips
 	bitesize = 2
-	list_reagents = list("nutriment" = 2, "sodiumchloride" = 4)
+	list_reagents = list(/datum/reagent/consumable/nutriment = 2, /datum/reagent/consumable/sodiumchloride = 4)
 	junkiness = 20
 	filling_color = "#FFD700"
 	tastes = list("salt" = 1, "crisps" = 1, "conspiracies" = 1)
