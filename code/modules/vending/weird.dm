@@ -592,3 +592,23 @@
 	if(iscarbon(eater))
 		var/mob/living/carbon/M = eater
 		M.dna.add_mutation(/datum/mutation/human/glow)
+
+// Hangover-b-gone pill
+// Contains antihol
+
+/obj/item/reagent_containers/pill/antihol
+	name = "hangover-b-gone"
+	desc = "Used to stimulate burn healing."
+	icon_state = "pill_happy"
+	list_reagents = list(/datum/reagent/medicine/antihol = 20)
+	rename_with_volume = TRUE
+
+// Corgi cube
+
+/obj/item/reagent_containers/food/snacks/monkeycube/corgi
+	name = "corgi cube"
+	desc = "Just add water!"
+	color = "#FFA500"
+	tastes = list("dog food" = 1, "bones" = 1)
+	foodtype = MEAT | SUGAR
+	spawned_mob = /mob/living/simple_animal/pet/dog/corgi
