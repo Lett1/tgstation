@@ -117,6 +117,7 @@
 	'sound/voice/human/malescream_5.ogg')
 
 	playsound(src, screamsound, 100, TRUE)
+	// TODO: add chat message
 
 	user.adjust_nutrition(20)
 
@@ -216,7 +217,7 @@
 	icon_state = "chips"
 	trash = /obj/item/trash/chips
 	bitesize = 4
-	list_reagents = list(/datum/reagent/consumable/nutriment = 1, "vomitol" = 1)
+	list_reagents = list(/datum/reagent/consumable/nutriment = 1, /datum/reagent/consumable/vomitol = 1)
 	junkiness = 20
 	filling_color = "#FFD700"
 	tastes = list("salt" = 1, "crisps" = 1)
