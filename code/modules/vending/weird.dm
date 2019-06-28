@@ -100,26 +100,24 @@
 
 /obj/item/reagent_containers/food/drinks/soda_cans/scream
 	name = "screaming \[UNTRANSLATABLE\]"
+	desc = "OPEN CAN ENJOY SCREAMING MEAL"
 	icon_state = "lemon-lime"
 
 /obj/item/reagent_containers/food/drinks/soda_cans/scream/open_soda(mob/user)
 	. = ..()
-	var/screamsound = pick('sound/voice/human/femalescream_1.ogg', 
-	'sound/voice/human/femalescream_2.ogg', 
-	'sound/voice/human/femalescream_3.ogg', 
-	'sound/voice/human/femalescream_4.ogg', 
-	'sound/voice/human/femalescream_5.ogg',
-	'sound/voice/human/wilhelm_scream.ogg',
-	'sound/voice/human/malescream_1.ogg',
-	'sound/voice/human/malescream_2.ogg',
-	'sound/voice/human/malescream_3.ogg', 
-	'sound/voice/human/malescream_4.ogg', 
-	'sound/voice/human/malescream_5.ogg')
-
-	playsound(src, screamsound, 100, TRUE)
-	// TODO: add chat message
-
-	user.adjust_nutrition(20)
+	
+	for(var/mob/living/carbon/M in get_hearers_in_view(9, user))
+		audible_message("<font color='red' size='7'>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA</font>")
+		if(!M.get_ear_protection())
+			if(ishuman(M))
+				M.adjust_nutrition(20)
+			else if(isethereal(M))
+				var/obj/item/organ/stomach/ethereal/stomach = M.getorganslot(ORGAN_SLOT_STOMACH)
+				if(istype(stomach))
+					stomach.adjust_charge(20)
+			to_chat(M, "<span class='notice'>You feel sated, somehow.</span>")
+					
+	playsound(src, 'sound/effects/hellscream.ogg', 100)
 
 // CANDY GUN
 
@@ -206,10 +204,9 @@
 	taste_description = "garbage"
 	can_synth = FALSE
 
-/datum/reagent/consumable/vomitol/on_mob_add(mob/living/L)
+/datum/reagent/consumable/vomitol/on_mob_life(mob/living/carbon/M)
 	. = ..()
-	var/mob/living/carbon/C = L
-	C.vomit(5,FALSE,TRUE)
+	M.vomit(5, FALSE, TRUE)
 
 /obj/item/reagent_containers/food/snacks/chips/doritoblaze
 	name = "chips"
@@ -301,7 +298,7 @@
 
 /obj/item/reagent_containers/food/drinks/soda_cans/piscina
 	name = "Piscina"
-	desc = "Made from the freshest fish of neo-greece. Taste the sea."
+	desc = "Made from the freshest fish of neo-venezia. Taste the sea."
 	icon_state = "cola"
 	list_reagents = list(/datum/reagent/consumable/piscina = 30)
 	foodtype = MEAT
@@ -465,13 +462,20 @@
 
 	body_parts_covered = FEET
 	slot_flags = ITEM_SLOT_FEET
+	slowdown = SHOES_SLOWDOWN
+	var/blood_state = BLOOD_STATE_NOT_BLOODY
+	var/list/bloody_shoes = list(BLOOD_STATE_HUMAN = 0,BLOOD_STATE_XENO = 0, BLOOD_STATE_OIL = 0, BLOOD_STATE_NOT_BLOODY = 0)
+	var/offset = 0
+	var/equipped_before_drop = FALSE
+	var/can_be_bloody = TRUE
+
 	icon = 'icons/obj/clothing/shoes.dmi'
 
 	list_reagents = list(/datum/reagent/consumable/nutriment = 5)
 	filling_color = "#854817"
 	tastes = list("bacon" = 1)
 	foodtype = MEAT
-
+	
 // Pie in the sky
 // Floats around, not affected by gravity
 
