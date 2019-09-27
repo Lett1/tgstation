@@ -9,7 +9,7 @@
 	antag_moodlet = /datum/mood_event/revolution
 	var/hud_type = "rev"
 	var/datum/team/revolution/rev_team
-	ghost_text = "I can't give up now, the heads must pay!"
+	ghost_text = "I can't give up now, not until the heads have gotten what they deserve!"
 
 /datum/antagonist/rev/can_be_owned(datum/mind/new_owner)
 	. = ..()

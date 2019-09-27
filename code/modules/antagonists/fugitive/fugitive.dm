@@ -9,6 +9,8 @@
 	var/is_captured = FALSE
 	var/backstory = "error"
 
+	ghost_text = "Breaking out from the Panopticon was hard. This, on the other hand, will be easy."
+
 /datum/antagonist/fugitive/apply_innate_effects(mob/living/mob_override)
 	var/mob/living/M = mob_override || owner.current
 	update_fugitive_icons_added(M)

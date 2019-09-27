@@ -8,6 +8,8 @@
 	silent = TRUE //not actually silent, because greet will be called by the trauma anyway.
 	var/datum/brain_trauma/special/obsessed/trauma
 
+	ghost_text = "YOU FOOLS! CAN'T YOU HEAR THEM? I MUST DO WHAT I HAVE TO DO!"
+
 /datum/antagonist/obsessed/admin_add(datum/mind/new_owner,mob/admin)
 	var/mob/living/carbon/C = new_owner.current
 	if(!istype(C))

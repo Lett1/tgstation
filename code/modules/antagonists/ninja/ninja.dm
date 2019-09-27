@@ -8,6 +8,8 @@
 	var/give_objectives = TRUE
 	var/give_equipment = TRUE
 
+	ghost_text = "in and out / of prison it goes... / baby sparrow" // .牢屋から出たり入つたり雀の子
+
 /datum/antagonist/ninja/New()
 	if(helping_station)
 		can_hijack = HIJACK_PREVENT

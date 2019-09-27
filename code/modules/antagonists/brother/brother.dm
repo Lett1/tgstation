@@ -6,7 +6,7 @@
 	var/datum/team/brother_team/team
 	antag_moodlet = /datum/mood_event/focused
 	can_hijack = HIJACK_HIJACKER
-	ghost_text = "I can't abandon my brother, not when we've come so far!"
+	ghost_text = "I can't abandon my brother, not when we've come so far!\n(Ghosting while your brother is still alive is a rule violatin and will be punished.)"
 
 /datum/antagonist/brother/create_team(datum/team/brother_team/new_team)
 	if(!new_team)
