@@ -9,7 +9,7 @@
 	job_rank = ROLE_CHANGELING
 	antag_moodlet = /datum/mood_event/focused
 
-	ghost_text = "This situation does not upset us. We will escape again and again, as many times as we want."
+	ghost_text = "Look, bud. You leave now and you forfeit your genome count!"
 
 	var/you_are_greet = TRUE
 	var/give_objectives = TRUE
